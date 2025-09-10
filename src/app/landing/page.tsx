@@ -1,13 +1,15 @@
 'use client'
 
+import HeroSection from "@/features/landing/sections/HeroSection"
 import Navbar from "@/shared/components/Navbar"
-import { useState } from "react"
 
 const LandingPage = () => {
-  const [currentSection, setCurrentSection] = useState<string>('HOME')
   
   return (
-    <Navbar currentSection={currentSection} setCurrentSection={setCurrentSection}/>
+    <>
+      <Navbar />
+      <HeroSection/>
+    </>
   )
 }
 
