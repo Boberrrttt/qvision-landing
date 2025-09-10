@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <section className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50%">
+    <section id="home" className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50%">
       {/* Main Hero Section */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-20 justify-center px-4 md:px-8 w-full max-w-7xl">
         {/* Left side */}

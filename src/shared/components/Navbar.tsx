@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
@@ -9,6 +11,15 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = ["HOME", "FEATURES", "WHY QVISION?", "ABOUT US"];
+
+  const scrollToSection = (item: string) => {
+    // normalize id from item name (lowercase, remove spaces and ?)
+    const id = item.toLowerCase().replace(/\s+/g, "-").replace("?", "");
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   useEffect(() => {
     const updateUnderline = () => {
@@ -34,7 +45,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="w-full py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
+    <nav className="w-full sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
       <div className="flex items-center space-x-4">
         <Image src="/assets/Logo.png" alt="Logo" width={78} height={78} />
         <div className="w-px h-6 bg-gray-400 hidden md:block"></div>
@@ -55,7 +66,10 @@ const Navbar = () => {
             ref={(el) => {
               if (el) menuRefs.current[idx] = el;
             }}
-            onClick={() => setCurrentSection(item)}
+            onClick={() => {
+              setCurrentSection(item);
+              scrollToSection(item);
+            }}
             className="relative hover:text-[#23488B] cursor-pointer text-sm"
           >
             {item}
@@ -83,11 +97,12 @@ const Navbar = () => {
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-white shadow-md md:hidden z-50">
           <ul className="flex flex-col items-center space-y-4 py-6 text-[#787878] font-semibold">
-            {menuItems.map((item, idx) => (
+            {menuItems.map((item) => (
               <li
                 key={item}
                 onClick={() => {
                   setCurrentSection(item);
+                  scrollToSection(item);
                   setIsOpen(false); 
                 }}
                 className={`hover:text-[#23488B] cursor-pointer text-base ${

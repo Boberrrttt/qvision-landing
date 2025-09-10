@@ -1,14 +1,14 @@
 'use client'
 
+import FeaturesSection from "@/features/landing/sections/FeaturesSection"
 import HeroSection from "@/features/landing/sections/HeroSection"
-import Navbar from "@/shared/components/Navbar"
 
 const LandingPage = () => {
   
   return (
     <>
-      <Navbar />
       <HeroSection/>
+      <FeaturesSection/>
     </>
   )
 }
