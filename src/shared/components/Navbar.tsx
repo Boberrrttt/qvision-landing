@@ -45,7 +45,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="w-full sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
+    <nav className="w-full z-40 sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
       <div className="flex items-center space-x-4">
         <Image src="/assets/Logo.png" alt="Logo" width={78} height={78} />
         <div className="w-px h-6 bg-gray-400 hidden md:block"></div>
