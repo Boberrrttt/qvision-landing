@@ -4,7 +4,7 @@ const HeroSection = () => {
   return (
     <section id="home" className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50%">
       {/* Main Hero Section */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-20 justify-center px-4 md:px-8 w-full max-w-7xl">
+      <div className="flex flex-col md:flex-row items-center lg:items-start gap-10 md:gap-20 justify-center px-4 md:px-8 w-full max-w-7xl">
         {/* Left side */}
         <div className="flex flex-col max-w-xl pt-6 md:pt-20 space-y-5 p-4 md:p-8 rounded-lg text-center md:text-left items-center md:items-start">
           <Image
@@ -12,7 +12,7 @@ const HeroSection = () => {
             alt="Logo"
             width={280}
             height={280}
-            className="w-28 sm:w-40 md:w-80 h-auto"
+            className="w-40 md:w-80 h-auto"
           />
 
           {/* Mobile tagline */}

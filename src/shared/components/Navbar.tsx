@@ -13,7 +13,6 @@ const Navbar = () => {
   const menuItems = ["HOME", "FEATURES", "WHY QVISION?", "ABOUT US"];
 
   const scrollToSection = (item: string) => {
-    // normalize id from item name (lowercase, remove spaces and ?)
     const id = item.toLowerCase().replace(/\s+/g, "-").replace("?", "");
     const el = document.getElementById(id);
     if (el) {
@@ -21,6 +20,7 @@ const Navbar = () => {
     }
   };
 
+  // underline effect
   useEffect(() => {
     const updateUnderline = () => {
       const index = menuItems.indexOf(currentSection);
@@ -43,6 +43,40 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", updateUnderline);
   }, [currentSection, menuItems]);
 
+  // scroll listener with IntersectionObserver
+  useEffect(() => {
+    const sectionIds = menuItems.map((item) =>
+      item.toLowerCase().replace(/\s+/g, "-").replace("?", "")
+    );
+
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                // Capitalize to match menuItems
+                const matchedItem = menuItems.find(
+                  (i) => i.toLowerCase().replace(/\s+/g, "-").replace("?", "") === id
+                );
+                if (matchedItem) setCurrentSection(matchedItem);
+              }
+            });
+          },
+          { threshold: 0.6 } 
+        );
+        observer.observe(el);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      observers.forEach((obs) => obs.disconnect());
+    };
+  }, []);
 
   return (
     <nav className="w-full z-40 sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
@@ -70,7 +104,9 @@ const Navbar = () => {
               setCurrentSection(item);
               scrollToSection(item);
             }}
-            className="relative hover:text-[#23488B] cursor-pointer text-sm"
+            className={`relative hover:text-[#23488B] cursor-pointer text-sm ${
+              currentSection === item ? "text-[#23488B]" : ""
+            }`}
           >
             {item}
           </li>
