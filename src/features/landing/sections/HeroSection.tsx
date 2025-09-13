@@ -1,6 +1,17 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const HeroSection = () => {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleBuyNow = async () => {
+    setIsLoading(true);
+    router.replace('/shop')
+  };
+
+
   return (
     <section id="home" className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50%">
       {/* Main Hero Section */}
@@ -27,8 +38,10 @@ const HeroSection = () => {
             safely and independently.
           </p>
 
-          <button className="bg-[#192B4B] cursor-pointer py-3 px-8 md:py-4 md:px-10 w-36 md:w-40 rounded-lg text-white text-sm font-poppins font-semibold hover:bg-[#23488B] transition">
-            BUY NOW
+          <button disabled={isLoading} onClick={handleBuyNow} className={` ${
+                isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
+              } bg-[#192B4B] cursor-pointer py-3 px-8 md:py-4 md:px-10 w-36 md:w-40 rounded-lg text-white text-sm font-poppins font-semibold hover:bg-[#23488B] transition`}>
+            { isLoading ? 'Loading...' : 'BUY NOW'}
           </button>
         </div>
 

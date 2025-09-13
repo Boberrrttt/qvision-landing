@@ -1,6 +1,16 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const BottomSection = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleBuyNow = async () => {
+    setLoading(true);
+    router.replace("/shop");
+  };
+
   return (
     <section className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-5% to-white to-15%">
       <p className="text-lg md:text-xl text-center px-4 md:px-0 max-w-[800px]">
@@ -52,8 +62,14 @@ const BottomSection = () => {
             <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
               ADD TO WISHLIST
             </button>
-            <button className="bg-[#192B4B] text-white font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
-              BUY NOW
+            <button
+              onClick={handleBuyNow}
+              disabled={loading}
+              className={`${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
+              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
+            >
+              {loading ? "Loading..." : "BUY NOW"}
             </button>
           </div>
         </div>
@@ -105,8 +121,14 @@ const BottomSection = () => {
             <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
               ADD TO WISHLIST
             </button>
-            <button className="bg-[#192B4B] text-white font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
-              BUY NOW
+            <button
+              onClick={handleBuyNow}
+              disabled={loading}
+              className={`${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
+              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
+            >
+              {loading ? "Loading..." : "BUY NOW"}
             </button>
           </div>
         </div>

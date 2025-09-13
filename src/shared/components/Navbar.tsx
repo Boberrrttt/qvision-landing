@@ -3,12 +3,16 @@
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [currentSection, setCurrentSection] = useState("HOME");
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const menuRefs = useRef<HTMLLIElement[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // 🔹 NEW
+  const pathname = usePathname();
+  const router = useRouter(); 
 
   const menuItems = ["HOME", "FEATURES", "WHY QVISION?", "ABOUT US"];
 
@@ -19,6 +23,15 @@ const Navbar = () => {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  useEffect(() => {
+    if (pathname === "/shop") {
+      setCurrentSection("SHOP");
+    } else if (pathname === "/") {
+      setCurrentSection("HOME");
+    }
+    setLoading(false); // 🔹 Stop loader once route changes
+  }, [pathname]);
 
   // underline effect
   useEffect(() => {
@@ -58,7 +71,6 @@ const Navbar = () => {
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                // Capitalize to match menuItems
                 const matchedItem = menuItems.find(
                   (i) => i.toLowerCase().replace(/\s+/g, "-").replace("?", "") === id
                 );
@@ -78,10 +90,28 @@ const Navbar = () => {
     };
   }, []);
 
+  // 🔹 Custom route change handler with loader
+  const handleRouteChange = (path: string) => {
+    setLoading(true);
+    router.replace(path);
+  };
+
   return (
     <nav className="w-full z-40 sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
+      {/* Loader bar at top */}
+      {loading && (
+        <div className="absolute top-0 left-0 w-full h-[3px] bg-[#23488B] animate-pulse"></div>
+      )}
+
       <div className="flex items-center space-x-4">
-        <Image src="/assets/Logo.png" alt="Logo" width={78} height={78} />
+        <Image 
+          onClick={() => pathname === '/shop' && handleRouteChange('/')} 
+          className={`${pathname === '/shop' && 'cursor-pointer'}`} 
+          src="/assets/Logo.png" 
+          alt="Logo" 
+          width={78} 
+          height={78} 
+        />
         <div className="w-px h-6 bg-gray-400 hidden md:block"></div>
         <Image
           src="/assets/byteq-logo.png"
@@ -94,23 +124,37 @@ const Navbar = () => {
 
       {/* Desktop menu */}
       <ul className="hidden md:flex space-x-12 items-center text-[#787878] font-semibold relative">
-        {menuItems.map((item, idx) => (
+        {pathname === "/" ? (
+          menuItems.map((item, idx) => (
+            <li
+              key={item}
+              ref={(el) => {
+                if (el) menuRefs.current[idx] = el;
+              }}
+              onClick={() => {
+                setCurrentSection(item);
+                scrollToSection(item);
+              }}
+              className={`relative hover:text-[#23488B] cursor-pointer text-sm ${
+                currentSection === item ? "text-[#23488B]" : ""
+              }`}
+            >
+              {item}
+            </li>
+          ))
+        ) : (
           <li
-            key={item}
             ref={(el) => {
-              if (el) menuRefs.current[idx] = el;
+              if (el) menuRefs.current[0] = el;
             }}
-            onClick={() => {
-              setCurrentSection(item);
-              scrollToSection(item);
-            }}
+            onClick={() => handleRouteChange('/shop')}
             className={`relative hover:text-[#23488B] cursor-pointer text-sm ${
-              currentSection === item ? "text-[#23488B]" : ""
+              currentSection === "SHOP" ? "text-[#23488B]" : ""
             }`}
           >
-            {item}
+            SHOP
           </li>
-        ))}
+        )}
 
         <div
           className="absolute mt-[3.5rem] h-[3.5px] bg-[#23488B] transition-all duration-300"
@@ -133,21 +177,41 @@ const Navbar = () => {
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-white shadow-md md:hidden z-50">
           <ul className="flex flex-col items-center space-y-4 py-6 text-[#787878] font-semibold">
-            {menuItems.map((item) => (
+           {pathname === "/" ? (
+              menuItems.map((item, idx) => (
+                <li
+                  key={item}
+                  ref={(el) => {
+                    if (el) menuRefs.current[idx] = el;
+                  }}
+                  onClick={() => {
+                    setCurrentSection(item);
+                    scrollToSection(item);
+                    setIsOpen(false);
+                  }}
+                  className={`relative hover:text-[#23488B] cursor-pointer text-sm ${
+                    currentSection === item ? "text-[#23488B]" : ""
+                  }`}
+                >
+                  {item}
+                </li>
+              ))
+            ) : (
               <li
-                key={item}
-                onClick={() => {
-                  setCurrentSection(item);
-                  scrollToSection(item);
-                  setIsOpen(false); 
+                ref={(el) => {
+                  if (el) menuRefs.current[0] = el;
                 }}
-                className={`hover:text-[#23488B] cursor-pointer text-base ${
-                  currentSection === item ? "text-[#23488B]" : ""
+                onClick={() => {
+                  handleRouteChange('/shop');
+                  setIsOpen(false);
+                }}
+                className={`relative hover:text-[#23488B] cursor-pointer text-sm ${
+                  currentSection === "SHOP" ? "text-[#23488B]" : ""
                 }`}
               >
-                {item}
+                SHOP
               </li>
-            ))}
+            )}
           </ul>
         </div>
       )}
