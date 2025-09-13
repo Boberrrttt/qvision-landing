@@ -58,6 +58,8 @@ const Navbar = () => {
 
   // scroll listener with IntersectionObserver
   useEffect(() => {
+    if (pathname !== "/") return; // ✅ Only run this logic on home page
+
     const sectionIds = menuItems.map((item) =>
       item.toLowerCase().replace(/\s+/g, "-").replace("?", "")
     );
@@ -72,13 +74,14 @@ const Navbar = () => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
                 const matchedItem = menuItems.find(
-                  (i) => i.toLowerCase().replace(/\s+/g, "-").replace("?", "") === id
+                  (i) =>
+                    i.toLowerCase().replace(/\s+/g, "-").replace("?", "") === id
                 );
                 if (matchedItem) setCurrentSection(matchedItem);
               }
             });
           },
-          { threshold: 0.6 } 
+          { threshold: 0.6 }
         );
         observer.observe(el);
         observers.push(observer);
@@ -88,7 +91,7 @@ const Navbar = () => {
     return () => {
       observers.forEach((obs) => obs.disconnect());
     };
-  }, []);
+  }, [pathname]);
 
   // 🔹 Custom route change handler with loader
   const handleRouteChange = (path: string) => {
