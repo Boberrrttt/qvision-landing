@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const FeaturesSection = () => {
   return (
-    <section className="flex flex-col items-center px-6 sm:px-12 lg:px-16 pt-16 pb-10 justify-center w-full" id="features">
+    <section className="flex flex-col items-center px-6 sm:px-12 lg:px-16 py-16 md:py-56 justify-center w-full" id="features">
       <h1 className="font-semibold w-full text-3xl sm:text-4xl">What is QVision?</h1>
       <p className="w-full text-base sm:text-xl my-6">
         QVision is an assistive eyewear for the visually impaired. It uses Artificial Intelligence to interpret and describe the user’s surroundings and communicates it through audio.

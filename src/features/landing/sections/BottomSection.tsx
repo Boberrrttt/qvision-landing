@@ -1,3 +1,4 @@
+import { incrementPreOrders } from "@/server/firebase/services/buynow.service";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,6 +11,7 @@ const BottomSection = () => {
   const handleBuyNow = async (product: string) => {
     product === 'Iris' ? setIrisLoading(true) : setRetinaLoading(true)
     router.push("/shop");
+    incrementPreOrders()
   };
 
   return (
@@ -42,7 +44,7 @@ const BottomSection = () => {
             <h2 className="font-semibold text-lg md:text-xl lg:text-2xl">
               QVision Iris
             </h2>
-            <div className="bg-[#FEB989] rounded-lg py-1 px-3 font-bold text-[#94563F] text-xs md:text-sm lg:text-base">
+            <div className="bg-[#FEB989] rounded-lg py-1 px-3 font-bold text-[#94563F] text-xs md:text-sm lg:text-base shadow-sm shadow-[#94563F]/50 ">
               -30%
             </div>
           </div>
@@ -51,16 +53,16 @@ const BottomSection = () => {
             navigation, and text-to-speech anytime, anywhere.
           </p>
           <div className="flex flex-row justify-center sm:justify-start items-end mt-3 gap-2">
-            <h2 className="text-[#E06752] font-bold text-md md:text-base lg:text-lg line-through">
+            <h2 className="text-[#E06752] font-bold text-sm md:text-base lg:text-md line-through decoration-[#94563F]">
               $999
             </h2>
-            <h2 className="text-[#192B4B] font-bold text-lg md:text-xl lg:text-2xl">
+            <h2 className="text-[#192B4B] font-bold text-md md:text-lg lg:text-xl">
               $699
             </h2>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
+            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
               ADD TO WISHLIST
             </button>
             <button
@@ -68,7 +70,7 @@ const BottomSection = () => {
               disabled={irisLoading}
               className={`${
                 irisLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
-              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
+              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md flex items-center justify-center`}
             >
               {irisLoading ? "Loading..." : "BUY NOW"}
             </button>
@@ -100,7 +102,7 @@ const BottomSection = () => {
             <h2 className="font-semibold text-lg md:text-xl lg:text-2xl">
               QVision Retina
             </h2>
-            <div className="bg-[#FEB989] rounded-lg py-1 px-3 font-bold text-[#94563F] text-xs md:text-sm lg:text-base">
+            <div className="bg-[#FEB989] rounded-lg py-1 px-3 font-bold text-[#94563F] text-xs md:text-sm lg:text-base shadow-sm shadow-[#94563F]/50">
               -20%
             </div>
           </div>
@@ -110,16 +112,16 @@ const BottomSection = () => {
             monthly plan.
           </p>
           <div className="flex flex-row justify-center sm:justify-start mt-3 items-end gap-2">
-            <h2 className="text-[#E06752] font-bold text-md md:text-base lg:text-lg line-through">
+            <h2 className="text-[#E06752] font-bold text-md md:text-base lg:text-md line-through decoration-[#94563F]">
               $189
             </h2>
-            <h2 className="text-[#192B4B] font-bold text-lg md:text-xl lg:text-2xl">
+            <h2 className="text-[#192B4B] font-bold text-md md:text-lg lg:text-xl">
               $149
             </h2>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base">
+            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
               ADD TO WISHLIST
             </button>
             <button
@@ -127,7 +129,7 @@ const BottomSection = () => {
               disabled={retinaLoading}
               className={`${
                 retinaLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
-              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
+              } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md flex items-center justify-center`}
             >
               {retinaLoading ? "Loading..." : "BUY NOW"}
             </button>

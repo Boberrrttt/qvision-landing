@@ -105,7 +105,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full z-50 fixed top-0 left-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center">
+    <nav className="w-full z-50 fixed top-0 left-0 bg-white py-6 px-6 md:px-16 shadow-sm flex justify-between items-center">
 
       <div className="flex items-center space-x-4">
         <Image 
@@ -156,12 +156,12 @@ const Navbar = () => {
               currentSection === "SHOP" ? "text-[#23488B]" : ""
             }`}
           >
-            SHOP
+            {pathname === '/shop' && 'SHOP'}
           </li>
         )}
 
         <div
-          className="absolute mt-[3.5rem] h-[3.5px] bg-[#23488B] transition-all duration-300"
+          className="absolute mt-[4.5rem] h-[3.5px] bg-[#23488B] transition-all duration-300"
           style={{
             left: underlineStyle.left,
             width: underlineStyle.width,

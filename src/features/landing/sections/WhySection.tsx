@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const WhySection = () => {
   return (
-    <section id="why-qvision" className="flex flex-col px-6 sm:px-10 md:px-16 py-12 relative">
+    <section id="why-qvision" className="flex flex-col px-6 sm:px-10 md:px-16 pt-24 pb-40 md:pb-56 relative">
       {/* Background image */}
       <Image
         src="/assets/q3.png"
