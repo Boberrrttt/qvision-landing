@@ -4,15 +4,16 @@ import { useState } from "react";
 
 const BottomSection = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [irisLoading, setIrisLoading] = useState(false);
+  const [retinaLoading, setRetinaLoading] = useState(false)
 
-  const handleBuyNow = async () => {
-    setLoading(true);
-    router.replace("/shop");
+  const handleBuyNow = async (product: string) => {
+    product === 'Iris' ? setIrisLoading(true) : setRetinaLoading(true)
+    router.push("/shop");
   };
 
   return (
-    <section className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-5% to-white to-15%">
+    <section id="bottom" className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-5% to-white to-15%">
       <p className="text-lg md:text-xl text-center px-4 md:px-0 max-w-[800px]">
         Give your loved ones the gift of independence with QVision.
       </p>
@@ -63,13 +64,13 @@ const BottomSection = () => {
               ADD TO WISHLIST
             </button>
             <button
-              onClick={handleBuyNow}
-              disabled={loading}
+              onClick={() => handleBuyNow('Iris')}
+              disabled={irisLoading}
               className={`${
-                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
+                irisLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
               } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
             >
-              {loading ? "Loading..." : "BUY NOW"}
+              {irisLoading ? "Loading..." : "BUY NOW"}
             </button>
           </div>
         </div>
@@ -122,13 +123,13 @@ const BottomSection = () => {
               ADD TO WISHLIST
             </button>
             <button
-              onClick={handleBuyNow}
-              disabled={loading}
+              onClick={() => handleBuyNow('Retina')}
+              disabled={retinaLoading}
               className={`${
-                loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
+                retinaLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
               } text-white font-semibold py-2.5 md:py-3 cursor-pointer hover:bg-[#23488B] lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-base flex items-center justify-center`}
             >
-              {loading ? "Loading..." : "BUY NOW"}
+              {retinaLoading ? "Loading..." : "BUY NOW"}
             </button>
           </div>
         </div>

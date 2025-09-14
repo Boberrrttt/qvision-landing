@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const ShopPage = () => {
   return (
-    <section id="shop" className="relative flex flex-col md:flex-row h-auto min-h-[90vh] px-6 md:px-28 py-10 md:py-0 items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50% overflow-hidden">
+    <section id="shop" className="relative flex flex-col justify-center h-full md:justify-start md:flex-row px-6 md:px-28 py-10 md:py-0 items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-30% to-white to-50% ">
       {/* Text Section */}
       <div className="flex flex-col w-full max-w-[800px] justify-start text-center md:text-left z-10">
         <h2 className="font-semibold text-2xl sm:text-3xl md:text-[40px]">
@@ -38,7 +38,7 @@ const ShopPage = () => {
         alt="Q6"
         width={830}
         height={400}
-        className="absolute right-0 md:right-10 top-40 md:top-24 hidden md:block max-w-full h-auto"
+        className="absolute right-0 md:right-10 top-40 md:top-[20%] hidden md:block max-w-full h-auto"
       />
     </section>
   )

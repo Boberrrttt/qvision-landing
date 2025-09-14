@@ -14,3 +14,9 @@
   font-style: normal;
 }
 
+@layer base {
+  html, body {
+    @apply h-full;
+  }
+}
+

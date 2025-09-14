@@ -1,14 +1,14 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const HeroSection = () => {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleBuyNow = async () => {
-    setIsLoading(true);
-    router.replace('/shop')
+  const handleBuyNow = () => {
+    const el = document.getElementById("bottom");
+    if (el) {
+      const yOffset = 300; // 👈 adjust this value (negative = scroll further down)
+      const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
   };
 
 
@@ -38,10 +38,8 @@ const HeroSection = () => {
             safely and independently.
           </p>
 
-          <button disabled={isLoading} onClick={handleBuyNow} className={` ${
-                isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-[#192B4B]"
-              } bg-[#192B4B] cursor-pointer py-3 px-8 md:py-4 md:px-10 w-36 md:w-40 rounded-lg text-white text-sm font-poppins font-semibold hover:bg-[#23488B] transition`}>
-            { isLoading ? 'Loading...' : 'BUY NOW'}
+          <button onClick={handleBuyNow} className="bg-[#192B4B] cursor-pointer py-3 px-8 md:py-4 md:px-10 w-36 md:w-40 rounded-lg text-white text-sm font-poppins font-semibold hover:bg-[#23488B] transition">
+            BUY NOW
           </button>
         </div>
 

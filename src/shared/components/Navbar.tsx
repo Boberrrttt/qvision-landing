@@ -32,12 +32,17 @@ const Navbar = () => {
     }
     setLoading(false); // 🔹 Stop loader once route changes
   }, [pathname]);
-
   // underline effect
   useEffect(() => {
     const updateUnderline = () => {
-      const index = menuItems.indexOf(currentSection);
-      const el = menuRefs.current[index];
+      let el: HTMLLIElement | undefined;
+
+      if (pathname === "/") {
+        const index = menuItems.indexOf(currentSection);
+        el = menuRefs.current[index];
+      } else if (pathname === "/shop") {
+        el = menuRefs.current[0]; // only SHOP exists
+      }
 
       if (el) {
         const rect = el.getBoundingClientRect();
@@ -54,7 +59,7 @@ const Navbar = () => {
 
     window.addEventListener("resize", updateUnderline);
     return () => window.removeEventListener("resize", updateUnderline);
-  }, [currentSection, menuItems]);
+  }, [currentSection, menuItems, pathname]);
 
   // scroll listener with IntersectionObserver
   useEffect(() => {
@@ -100,11 +105,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full z-40 sticky top-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center relative">
-      {/* Loader bar at top */}
-      {loading && (
-        <div className="absolute top-0 left-0 w-full h-[3px] bg-[#23488B] animate-pulse"></div>
-      )}
+    <nav className="w-full z-50 fixed top-0 left-0 bg-white py-4 px-6 md:px-16 shadow-sm flex justify-between items-center">
 
       <div className="flex items-center space-x-4">
         <Image 

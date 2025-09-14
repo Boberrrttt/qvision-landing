@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${montserrat.className} antialiased`}>
+    <html lang="en" className="h-screen">
+      <body className={`${montserrat.className} h-screen antialiased`}>
         <Navbar/>
         {children}
       </body>
