@@ -1,11 +1,11 @@
-import { doc, getDoc, setDoc, updateDoc, increment } from "firebase/firestore";
+import { doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config";
-import { PREORDER_DOC_ID, PREORDERS_COLLECTION_NAME } from "@/server/constants";
+import { SITEVISITS_COLLECTION_NAME, SITEVISITS_DOC_ID } from "@/server/constants";
 
-const incrementPreOrders = async (amount: number = 1) => {
+const incrementWebsiteVisits = async (amount: number = 1) => {
   try {
-    const docRef = doc(db, PREORDERS_COLLECTION_NAME, PREORDER_DOC_ID);
-
+    const docRef = doc(db, SITEVISITS_COLLECTION_NAME, SITEVISITS_DOC_ID)
+    
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -19,17 +19,15 @@ const incrementPreOrders = async (amount: number = 1) => {
         updatedAt: new Date(),
       });
     }
-
-    return { success: true };
   } catch (error) {
     console.error("Error incrementing preOrders:", error);
     return { success: false, error };
   }
-};
+}
 
-const getPreOrders = async () => {
+const getSiteVisits = async () => {
   try {
-    const docRef = doc(db, PREORDERS_COLLECTION_NAME, PREORDER_DOC_ID);
+    const docRef = doc(db, SITEVISITS_COLLECTION_NAME, SITEVISITS_DOC_ID);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) return { success: true, count: 0 };
@@ -42,5 +40,6 @@ const getPreOrders = async () => {
   }
 };
 
-export { incrementPreOrders, getPreOrders };
 
+
+export { incrementWebsiteVisits, getSiteVisits }
