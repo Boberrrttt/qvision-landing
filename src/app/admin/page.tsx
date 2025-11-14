@@ -1,40 +1,40 @@
-'use client'
+'use client';
 
-import { getPreOrders } from "@/server/firebase/services/buynow.service"
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { getPreOrders } from "@/server/firebase/services/buynow.service";
+import AnalyticsCard from "@/features/admin/components/AnalyticsCard";
+import CurrentEmailsSentSection from "@/features/admin/sections/currentEmailsSentSection";
 
-const AdminPage = () => {
-  const [ordersTotal, setOrdersTotal] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+export default function AdminPage() {
+  const [ordersTotal, setOrdersTotal] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
-      setIsLoading(true)
-      const result = await getPreOrders()
-      if (result.success) {
-        setOrdersTotal(result.count)
-      }
-      setIsLoading(false)
-    }
-
-    fetchOrders()
-  }, [])
+      setIsLoading(true);
+      const result = await getPreOrders();
+      if (result.success) setOrdersTotal(result.count);
+      setIsLoading(false);
+    };
+    fetchOrders();
+  }, []);
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold text-gray-700 mb-10 ">
-          Total Pre-Orders
-        </h1>
-        {isLoading ? (
-          <p className="text-2xl font-semibold text-gray-600">Loading...</p>
-        ) : (
-          <p className="text-6xl font-bold text-gray-900">{ordersTotal}</p>
-        )}
+    <div className="flex h-screen w-[100%] justify-center mt-[4.6%] bg-gray-50">
+      <div className="bg-[#192B4B] w-full flex flex-col h-[30%] px-6">
+        <div className="flex flex-row justify-between items-center w-full pt-16">
+          <h2 className="text-white text-2xl font-bold">QVision</h2>
+          <h2 className="text-white text-2xl">Analytics</h2>
+        </div>
+        <div className="flex flex-row w-full mt-5 justify-between gap-6">
+          <AnalyticsCard title="Total Site Visits" data={12} />
+          <AnalyticsCard title={`Total "View Details" Clicks`} data={12} />
+          <AnalyticsCard title={`Total "Buy Now" Clicks`} data={12} />
+          <AnalyticsCard title={`Total "Notify Me" Clicks`} data={12} />
+        </div>
+        <CurrentEmailsSentSection/>
       </div>
     </div>
-  )
+  );
 }
-
-export default AdminPage
 
