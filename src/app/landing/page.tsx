@@ -4,10 +4,15 @@ import BottomSection from "@/features/landing/sections/BottomSection"
 import FeaturesSection from "@/features/landing/sections/FeaturesSection"
 import HeroSection from "@/features/landing/sections/HeroSection"
 import WhySection from "@/features/landing/sections/WhySection"
+import axios from "axios"
 import { useEffect } from "react"
 
 const LandingPage = () => {
   useEffect(() => {
+    const countSiteVisit = async () => {
+      await axios.post('/api/visits')
+    }
+    countSiteVisit();
   }, [])
 
   return (

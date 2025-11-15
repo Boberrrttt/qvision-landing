@@ -20,7 +20,7 @@ export default function AdminPage() {
   }, []);
 
   return (
-    <div className="flex h-screen w-[100%] justify-center mt-[4.6%] bg-gray-50">
+    <div className="flex h-screen w-[100%] justify-center mt-16 bg-gray-50">
       <div className="bg-[#192B4B] w-full flex flex-col h-[30%] px-6">
         <div className="flex flex-row justify-between items-center w-full pt-16">
           <h2 className="text-white text-2xl font-bold">QVision</h2>
@@ -33,6 +33,8 @@ export default function AdminPage() {
           <AnalyticsCard title={`Total "Notify Me" Clicks`} data={12} />
         </div>
         <CurrentEmailsSentSection/>
+
+
       </div>
     </div>
   );

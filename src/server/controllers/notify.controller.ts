@@ -1,6 +1,6 @@
 import { db } from "@/server/firebase/config";
-import { sendEmailService } from "@/server/services/nodemailer.service";
 import { addDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
+import { sendEmailService } from "../firebase/services/nodemailer.service";
 
 const sendEmail = async (email: string) => {
   try {

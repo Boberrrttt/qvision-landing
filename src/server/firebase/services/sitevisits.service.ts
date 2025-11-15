@@ -19,8 +19,10 @@ const incrementWebsiteVisits = async (amount: number = 1) => {
         updatedAt: new Date(),
       });
     }
+
+    return { success: true }
   } catch (error) {
-    console.error("Error incrementing preOrders:", error);
+    console.error("Error incrementing site visits", error);
     return { success: false, error };
   }
 }
@@ -35,7 +37,7 @@ const getSiteVisits = async () => {
     const data = docSnap.data();
     return { success: true, count: data.count || 0 };
   } catch (error) {
-    console.error("Error getting preOrders:", error);
+    console.error("Error getting site visits:", error);
     return { success: false, error };
   }
 };

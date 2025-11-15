@@ -1,5 +1,5 @@
+import { validateEmail } from "@/server/utils/validators";
 import nodemailer from "nodemailer";
-import { validateEmail } from "../utils/validators";
 
 const sendEmailService = async (email: string) => {
   try {
@@ -29,4 +29,5 @@ const sendEmailService = async (email: string) => {
 }
 
 export { sendEmailService }
+
 
