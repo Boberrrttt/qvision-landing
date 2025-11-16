@@ -6,3 +6,5 @@ export const SITEVISITS_COLLECTION_NAME = "siteVisits";
 export const SITEVISITS_DOC_ID = "counter";
 
 
+export const EMAILSENT_COLLECTION_NAME = "emails";
+

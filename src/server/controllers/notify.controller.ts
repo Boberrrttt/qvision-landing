@@ -1,10 +1,11 @@
 import { db } from "@/server/firebase/config";
 import { addDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
-import { sendEmailService } from "../firebase/services/nodemailer.service";
+import { getEmailsSent, sendEmailService } from "../firebase/services/nodemailer.service";
+import { EMAILSENT_COLLECTION_NAME } from "../constants";
 
 const sendEmail = async (email: string) => {
   try {
-    const notifyRef = collection(db, "emails");
+    const notifyRef = collection(db, EMAILSENT_COLLECTION_NAME);
 
     const q = query(notifyRef, where("email", "==", email));
     const snapshot = await getDocs(q);
@@ -25,5 +26,15 @@ const sendEmail = async (email: string) => {
   }
 };
 
-export { sendEmail };
+const getTotalEmails = async () => {
+  try {
+    const response = await getEmailsSent();
+    return { success: true, data: response, message: "Fetched total emails" };
+  } catch (error) {
+    console.error('Failed to fetch total emails', error);
+    return { success: false, data: null, message: "Failed to fetch total emails." };
+  }
+}
+
+export { sendEmail, getTotalEmails };
 

@@ -1,4 +1,4 @@
-import { sendEmail } from "@/server/controllers/notify.controller";
+import { getTotalEmails, sendEmail } from "@/server/controllers/notify.controller";
 
 export const POST = async (req: Request) => {
   try {
@@ -25,3 +25,18 @@ export const POST = async (req: Request) => {
     );
   }
 }
+
+export const GET = async (req: Request) => {
+  try {
+    const result = await getTotalEmails();
+
+    return new Response(
+      JSON.stringify({ message: result.message, data: result.data }),
+    )
+  } catch (error: any) {
+    console.error("Error in /api/notify route:", error);
+    return new Response(
+      JSON.stringify({ message: error?.message || "Failed to fetch total emails" }),
+    );
+  }
+} 

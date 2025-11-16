@@ -1,5 +1,8 @@
 import { validateEmail } from "@/server/utils/validators";
+import { collection, getDocs } from "firebase/firestore";
 import nodemailer from "nodemailer";
+import { EMAILSENT_COLLECTION_NAME } from "@/server/constants";
+import { db } from "../config";
 
 const sendEmailService = async (email: string) => {
   try {
@@ -28,6 +31,21 @@ const sendEmailService = async (email: string) => {
   }
 }
 
-export { sendEmailService }
+const getEmailsSent = async () => {
+  try {
+    const colRef = collection(db, EMAILSENT_COLLECTION_NAME);
+    const snapshot = await getDocs(colRef);
+
+    if (snapshot.empty) return { success: true, count: 0 };
+
+    let totalCount = snapshot.size;
+
+    return { success: true, count: totalCount };
+  } catch (error) {
+    console.error("Error getting preOrders:", error);
+    return { success: false, error };
+  }
+};
+export { sendEmailService, getEmailsSent }
 
 
