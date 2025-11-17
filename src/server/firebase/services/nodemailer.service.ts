@@ -36,16 +36,25 @@ const getEmailsSent = async () => {
     const colRef = collection(db, EMAILSENT_COLLECTION_NAME);
     const snapshot = await getDocs(colRef);
 
-    if (snapshot.empty) return { success: true, count: 0 };
+    if (snapshot.empty) {
+      return { success: true, count: 0, emails: [] };
+    }
 
-    let totalCount = snapshot.size;
+    const totalCount = snapshot.size;
 
-    return { success: true, count: totalCount };
+    const emails = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return { success: true, count: totalCount, emails };
   } catch (error) {
-    console.error("Error getting preOrders:", error);
+    console.error("Error getting emails:", error);
     return { success: false, error };
   }
 };
+
+
 export { sendEmailService, getEmailsSent }
 
 
