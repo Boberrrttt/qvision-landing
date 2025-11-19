@@ -1,6 +1,6 @@
 import { db } from "@/server/firebase/config";
 import { addDoc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
-import { getEmailsSent, sendEmailService } from "../firebase/services/nodemailer.service";
+import { getEmailsSent, getPaginatedEmails, sendEmailService } from "../firebase/services/nodemailer.service";
 import { EMAILSENT_COLLECTION_NAME } from "../constants";
 
 const sendEmail = async (email: string) => {
@@ -36,5 +36,15 @@ const getTotalEmails = async () => {
   }
 }
 
-export { sendEmail, getTotalEmails };
+const getEmails = async (limitQuery: number, page: number ) => {
+  try {
+    const response = await getPaginatedEmails(limitQuery, page);
+    return { success: true, data: response, message: "Fetched emails" };
+  } catch (error) {
+    console.error('Failed to fetch emails', error);
+    return { success: false, data: null, message: "Failed to fetch emails." };
+  }
+}
+
+export { sendEmail, getTotalEmails, getEmails };
 

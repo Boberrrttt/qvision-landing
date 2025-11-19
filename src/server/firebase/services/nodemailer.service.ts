@@ -1,8 +1,15 @@
 import { validateEmail } from "@/server/utils/validators";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, startAfter } from "firebase/firestore";
 import nodemailer from "nodemailer";
 import { EMAILSENT_COLLECTION_NAME } from "@/server/constants";
 import { db } from "../config";
+
+interface PaginatedEmailResponse {
+  emails: any[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+}
 
 const sendEmailService = async (email: string) => {
   try {
@@ -42,19 +49,56 @@ const getEmailsSent = async () => {
 
     const totalCount = snapshot.size;
 
-    const emails = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    return { success: true, count: totalCount, emails };
+    return { success: true, count: totalCount };
   } catch (error) {
     console.error("Error getting emails:", error);
     return { success: false, error };
   }
 };
 
+const getPaginatedEmails = async (
+  limitQuery: number = 10,
+  page: number = 1
+): Promise<{ success: boolean; data?: PaginatedEmailResponse; error?: any }> => {
+  try {
+    const colRef = collection(db, EMAILSENT_COLLECTION_NAME);
 
-export { sendEmailService, getEmailsSent }
+    const allSnapshot = await getDocs(colRef);
+    const totalCount = allSnapshot.size;
+    const totalPages = Math.ceil(totalCount / limitQuery);
+
+    if (page < 1 || page > totalPages) {
+      return { success: false, error: "Invalid page number" };
+    }
+
+    const startIndex = (page - 1) * limitQuery;
+
+    const q = query(colRef, orderBy("createdAt", "desc"));
+
+    const snapshot = await getDocs(q);
+
+    const slicedDocs = snapshot.docs.slice(startIndex, startIndex + limitQuery);
+
+    const emails = slicedDocs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return {
+      success: true,
+      data: {
+        emails,
+        totalCount,
+        totalPages,
+        currentPage: page,
+      },
+    };
+  } catch (error) {
+    console.error("Error during pagination:", error);
+    return { success: false, error };
+  }
+};
+
+export { sendEmailService, getEmailsSent, getPaginatedEmails }
 
 
