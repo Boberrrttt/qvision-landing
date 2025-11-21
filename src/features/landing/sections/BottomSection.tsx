@@ -1,4 +1,5 @@
 import { incrementPreOrders } from "@/server/firebase/services/buynow.service";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,12 +8,22 @@ const BottomSection = () => {
   const router = useRouter();
   const [irisLoading, setIrisLoading] = useState(false);
   const [retinaLoading, setRetinaLoading] = useState(false)
+  const [isDetailOneLoading, setIsDetailOneLoading] = useState(false);
+    const [isDetailTwoLoading, setIsDetailTwoLoading] = useState(false);
 
   const handleBuyNow = async (product: string) => {
     product === 'Iris' ? setIrisLoading(true) : setRetinaLoading(true)
     router.push("/shop");
     incrementPreOrders()
   };
+
+  const handleViewDetails = async (index: number) => {
+    index === 1 ? setIsDetailOneLoading(true) : setIsDetailTwoLoading(true);
+    await axios.post("/api/viewdetails");
+    router.push("/shop");
+    index === 1 ? setIsDetailOneLoading(false) : setIsDetailTwoLoading(false);
+  }
+
 
   return (
     <section id="bottom" className="flex w-full flex-col pt-16 pb-10 md:pt-24 md:pb-16 lg:pt-28 lg:pb-20 justify-center items-center bg-gradient-to-r from-[#ededed] from-0% via-[#ededed] via-5% to-white to-15%">
@@ -62,8 +73,8 @@ const BottomSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
-              ADD TO WISHLIST
+            <button onClick={() => handleViewDetails(1)} className="bg-[#EDEDED] text-[#192B4B] cursor-pointer font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
+               {isDetailOneLoading ? "Loading..." : "VIEW DETAILS"}
             </button>
             <button
               onClick={() => handleBuyNow('Iris')}
@@ -121,8 +132,8 @@ const BottomSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <button className="bg-[#EDEDED] text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
-              ADD TO WISHLIST
+            <button onClick={() => handleViewDetails(2)} className="bg-[#EDEDED] cursor-pointer text-[#192B4B] font-semibold py-2.5 md:py-3 lg:py-4 px-5 md:px-6 rounded-md text-sm md:text-md">
+               {isDetailTwoLoading ? "Loading..." : "VIEW DETAILS"}
             </button>
             <button
               onClick={() => handleBuyNow('Retina')}

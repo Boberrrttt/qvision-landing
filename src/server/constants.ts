@@ -8,3 +8,5 @@ export const SITEVISITS_DOC_ID = "counter";
 
 export const EMAILSENT_COLLECTION_NAME = "emails";
 
+export const VIEWDETAILS_COLLECTION_NAME = "viewDetails";
+export const VIEWDETAILS_DOC_ID = "counter";

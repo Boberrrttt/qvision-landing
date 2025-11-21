@@ -16,6 +16,7 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [siteVisits, setSiteVisits] = useState<number>(0);
   const [totalEmails, setTotalEmails] = useState<number>(0);
+  const [totalViewDetails, setTotalViewDetails] = useState<number>(0);
 
   const [emails, setEmails] = useState<IEmail[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -53,17 +54,18 @@ export default function AdminPage() {
     const getData = async () => {
       setIsLoading(true);
 
-      const [visitsResults, preOrdersResults, emailsResults] = await Promise.all([
+      const [visitsResults, preOrdersResults, emailsResults, viewDetailsResults] = await Promise.all([
         axios.get("/api/visits"),
         axios.get("/api/buynow"),
-        axios.get("/api/notify"), // leave this as is
+        axios.get("/api/notify"),
+        axios.get("/api/viewdetails")
       ]);
 
       setOrdersTotal(preOrdersResults.data.data.count);
       setSiteVisits(visitsResults.data.data.count);
       setTotalEmails(emailsResults.data.data.count);
+      setTotalViewDetails(viewDetailsResults.data.data.count);
 
-      // Fetch first page
       await fetchPaginatedEmails(1);
 
       setIsLoading(false);
@@ -86,7 +88,7 @@ export default function AdminPage() {
       {/* ANALYTICS CARDS */}
       <div className="flex flex-row w-full px-6 justify-between gap-6 -mt-32">
         <AnalyticsCard title="Total Site Visits" data={siteVisits} type="Visits" isLoading={isLoading} />
-        <AnalyticsCard title={`Total "View Details" Clicks`} data={1} type="View Details" isLoading={isLoading} />
+        <AnalyticsCard title={`Total "View Details" Clicks`} data={totalViewDetails} type="View Details" isLoading={isLoading} />
         <AnalyticsCard title={`Total "Buy Now" Clicks`} data={ordersTotal} type="Buy Now" isLoading={isLoading} />
         <AnalyticsCard title={`Total "Notify Me" Clicks`} data={totalEmails} type="Notify" isLoading={isLoading} />
       </div>
