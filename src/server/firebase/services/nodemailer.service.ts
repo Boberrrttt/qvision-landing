@@ -3,6 +3,8 @@ import { collection, getDocs, limit, orderBy, query, startAfter } from "firebase
 import nodemailer from "nodemailer";
 import { EMAILSENT_COLLECTION_NAME } from "@/server/constants";
 import { db } from "../config";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 interface PaginatedEmailResponse {
   emails: any[];
@@ -12,6 +14,12 @@ interface PaginatedEmailResponse {
 }
 
 const sendEmailService = async (email: string) => {
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const projectRoot = path.resolve(__dirname, '../../../..');
+ 
   try {
     validateEmail(email);
 
@@ -28,63 +36,76 @@ const sendEmailService = async (email: string) => {
       to: email,
       subject: "Thanks for signing up for QVision updates!",
       html: `
-        <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="margin-bottom: 20px;">
-            <img src="cid:qvisionLogo" alt="QVISION" style="height: 22px; display: inline-block; vertical-align: middle; border-right: 1px solid #ccc; padding-right: 10px;">
-            <img src="cid:byteqLogo" alt="byteq" style="height: 25px; display: inline-block; vertical-align: middle; margin-left: 10px;">
-          </div>
-          
-          <p style="font-family: Arial, Helvetica, sans-serif;">Hi!</p>
-          
-          <p style="font-family: Arial, Helvetica, sans-serif;">Thank you for signing up to stay updated with <strong style="font-family: Arial, Helvetica, sans-serif;">QVision</strong>.</p>
-          
-          <p style="font-family: Arial, Helvetica, sans-serif;">We're still bringing this into reality, but soon, you'll be among the first to see it clearly. Your support means a lot to us. <strong style="font-family: Arial, Helvetica, sans-serif;">We'll notify you the moment QVision is ready for launch.</strong></p>
-          
-          <p style="font-family: Arial, Helvetica, sans-serif;">Until then, thank you for trusting in our vision.</p>
-          
-          <div style="background-color: #000000; padding: 20px; margin-top: 20px; text-align: center;">
-            <div style="margin-bottom: 5px;">
-              <p style="font-size: 24px; font-weight: bold; margin: 0; font-family: Arial, Helvetica, sans-serif;">
-                <span style="color: #ffffff;">byte</span><span style="color: #5CE1E6;">q</span>
-              </p>
-            </div>
-            
-          <table role="presentation" width="100%" style="margin-bottom: 5px;">
-              <tr>
-                <td align="center">
-                  <a href="https://facebook.com/yourpage" style="margin-right: 15px; display: inline-block;">
-                    <img src="cid:facebookLogo" alt="Facebook" style="height: 20px; width: 20px;">
-                  </a>
-                  <a href="https://instagram.com/yourpage" style="display: inline-block;">
-                    <img src="cid:instagramLogo" alt="Instagram" style="height: 20px; width: 20px;">
-                  </a>
-                </td>
-              </tr>
-            </table>
-            
-            <p style="color: #888; font-size: 12px; font-style: italic; margin: 0; font-family: Arial, Helvetica, sans-serif;">Choose, Engineered.</p>
-          </div>
+        <div style="width: 100%; background-color: #d9d9d9; padding: 50px 0; font-family: Arial, Helvetica, sans-serif;">
+
+          <!-- White content card -->
+          <table role="presentation" align="center" width="600" style="background-color: #ffffff; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
+            <tr>
+              <td style="padding: 20px;">
+                
+                <!-- Logos -->
+                <div style="margin-bottom: 30px;">
+                  <img src="cid:qvisionLogo" alt="QVISION" style="height: 22px; border-right: 1px solid #ccc; padding-right: 10px;">
+                  <img src="cid:byteqLogo" alt="byteq" style="height: 25px; margin-left: 10px;">
+                </div>
+
+                <!-- Text content -->
+                <p style="font-size: 16px; margin-bottom: 10px;">Hi!</p>
+                <p style="font-size: 16px; margin-bottom: 10px;">Thank you for signing up to stay updated with <strong>QVision</strong>.</p>
+                <p style="font-size: 16px; margin-bottom: 10px;">We're still bringing this into reality, but soon, you'll be among the first to see it clearly. Your support means a lot to us. <strong>We'll notify you the moment QVision is ready for launch.</strong></p>
+                <p style="font-size: 16px; margin-bottom: 0;">Until then, thank you for trusting in our vision.</p>
+
+              </td>
+            </tr>
+
+            <!-- Black footer inside white card with rounded bottom corners -->
+            <tr>
+              <td style="background-color: #000000; text-align: center; padding: 20px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                <p style="font-size: 24px; font-weight: bold; margin: 0;">
+                  <span style="color: #ffffff;">byte</span><span style="color: #5CE1E6;">q</span>
+                </p>
+
+                <table role="presentation" width="100%" style="margin-top: 10px;">
+                  <tr>
+                    <td align="center">
+                      <a href="https://facebook.com/yourpage" style="margin-right: 15px;">
+                        <img src="cid:facebookLogo" alt="Facebook" style="height: 20px; width: 20px;">
+                      </a>
+                      <a href="https://instagram.com/yourpage">
+                        <img src="cid:instagramLogo" alt="Instagram" style="height: 20px; width: 20px;">
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="color: #888; font-size: 12px; font-style: italic; margin: 10px 0 0 0;">Choose, Engineered.</p>
+              </td>
+            </tr>
+
+          </table>
+
         </div>
+
         `,
       attachments: [
         {
           filename: 'Logo.png',
-          path: './public/assets/Logo.png',
+          path: path.join(projectRoot, 'public', 'assets', 'Logo.png'),
           cid: 'qvisionLogo'
         },
         {
-          filename: 'byteq-logo.png', 
-          path: './public/assets/byteq-logo.png',
+          filename: 'byteq-logo.png',
+          path: path.join(projectRoot, 'public', 'assets', 'byteq-logo.png'),
           cid: 'byteqLogo'
         },
         {
           filename: 'facebook-logo.png',
-          path: './public/assets/facebook-white.png',
+          path: path.join(projectRoot, 'public', 'assets', 'facebook-white.png'),
           cid: 'facebookLogo'
         },
         {
           filename: 'instagram-logo.png',
-          path: './public/assets/instagram-white.png',
+          path: path.join(projectRoot, 'public', 'assets', 'instagram-white.png'),
           cid: 'instagramLogo'
         }
       ]
