@@ -43,20 +43,24 @@ const sendEmailService = async (email: string) => {
           <p style="font-family: Arial, Helvetica, sans-serif;">Until then, thank you for trusting in our vision.</p>
           
           <div style="background-color: #000000; padding: 20px; margin-top: 20px; text-align: center;">
-            <div style="margin-bottom: 10px;">
+            <div style="margin-bottom: 5px;">
               <p style="font-size: 24px; font-weight: bold; margin: 0; font-family: Arial, Helvetica, sans-serif;">
                 <span style="color: #ffffff;">byte</span><span style="color: #5CE1E6;">q</span>
               </p>
             </div>
             
-            <div style="display: flex; justify-content: center; text-align: center; gap: 15px; width: 100%; margin-bottom: 15px;">
-              <a href="https://facebook.com/yourpage">
-                <img src="cid:facebookLogo" alt="Facebook" style="height: 20px; width: 20px;">
-              </a>
-              <a href="https://instagram.com/yourpage">
-                <img src="cid:instagramLogo" alt="Instagram" style="height: 20px; width: 20px;">
-              </a>
-            </div>
+          <table role="presentation" width="100%" style="margin-bottom: 5px;">
+              <tr>
+                <td align="center">
+                  <a href="https://facebook.com/yourpage" style="margin-right: 15px; display: inline-block;">
+                    <img src="cid:facebookLogo" alt="Facebook" style="height: 20px; width: 20px;">
+                  </a>
+                  <a href="https://instagram.com/yourpage" style="display: inline-block;">
+                    <img src="cid:instagramLogo" alt="Instagram" style="height: 20px; width: 20px;">
+                  </a>
+                </td>
+              </tr>
+            </table>
             
             <p style="color: #888; font-size: 12px; font-style: italic; margin: 0; font-family: Arial, Helvetica, sans-serif;">Choose, Engineered.</p>
           </div>
