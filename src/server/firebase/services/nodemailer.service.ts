@@ -1,10 +1,8 @@
 import { validateEmail } from "@/server/utils/validators";
-import { collection, getDocs, limit, orderBy, query, startAfter } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import nodemailer from "nodemailer";
 import { EMAILSENT_COLLECTION_NAME } from "@/server/constants";
 import { db } from "../config";
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 interface PaginatedEmailResponse {
   emails: any[];
@@ -13,13 +11,9 @@ interface PaginatedEmailResponse {
   currentPage: number;
 }
 
+const FRONTEND_BASE_URL = "https://qvision.netlify.app"
+
 const sendEmailService = async (email: string) => {
-
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-
-  const projectRoot = path.resolve(__dirname, '../../../..');
- 
   try {
     validateEmail(email);
 
@@ -27,8 +21,8 @@ const sendEmailService = async (email: string) => {
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
     const mailOptions = {
@@ -42,11 +36,11 @@ const sendEmailService = async (email: string) => {
           <table role="presentation" align="center" width="600" style="background-color: #ffffff; border: 1px solid #ccc; border-radius: 8px; overflow: hidden;">
             <tr>
               <td style="padding: 20px;">
-                
+
                 <!-- Logos -->
                 <div style="margin-bottom: 30px;">
-                  <img src="cid:qvisionLogo" alt="QVISION" style="height: 22px; border-right: 1px solid #ccc; padding-right: 10px;">
-                  <img src="cid:byteqLogo" alt="byteq" style="height: 25px; margin-left: 10px;">
+                  <img src="${FRONTEND_BASE_URL}/assets/Logo.png" alt="QVISION" style="height: 22px; border-right: 1px solid #ccc; padding-right: 10px;">
+                  <img src="${FRONTEND_BASE_URL}/assets/byteq-logo.png" alt="byteq" style="height: 25px; margin-left: 10px;">
                 </div>
 
                 <!-- Text content -->
@@ -68,11 +62,11 @@ const sendEmailService = async (email: string) => {
                 <table role="presentation" width="100%" style="margin-top: 10px;">
                   <tr>
                     <td align="center">
-                      <a href="https://facebook.com/yourpage" style="margin-right: 15px;">
-                        <img src="cid:facebookLogo" alt="Facebook" style="height: 20px; width: 20px;">
+                      <a href="https://www.facebook.com/profile.php?id=61574997554727" style="margin-right: 15px;">
+                        <img src="${FRONTEND_BASE_URL}/assets/facebook-white.png" alt="Facebook" style="height: 20px; width: 20px;">
                       </a>
-                      <a href="https://instagram.com/yourpage">
-                        <img src="cid:instagramLogo" alt="Instagram" style="height: 20px; width: 20px;">
+                      <a href="https://instagram.com/byteq.ph">
+                        <img src="${FRONTEND_BASE_URL}/assets/instagram-white.png" alt="Instagram" style="height: 20px; width: 20px;">
                       </a>
                     </td>
                   </tr>
@@ -81,42 +75,20 @@ const sendEmailService = async (email: string) => {
                 <p style="color: #888; font-size: 12px; font-style: italic; margin: 10px 0 0 0;">Choose, Engineered.</p>
               </td>
             </tr>
-
           </table>
 
         </div>
-
-        `,
-      attachments: [
-        {
-          filename: 'Logo.png',
-          path: path.join(projectRoot, 'public', 'assets', 'Logo.png'),
-          cid: 'qvisionLogo'
-        },
-        {
-          filename: 'byteq-logo.png',
-          path: path.join(projectRoot, 'public', 'assets', 'byteq-logo.png'),
-          cid: 'byteqLogo'
-        },
-        {
-          filename: 'facebook-logo.png',
-          path: path.join(projectRoot, 'public', 'assets', 'facebook-white.png'),
-          cid: 'facebookLogo'
-        },
-        {
-          filename: 'instagram-logo.png',
-          path: path.join(projectRoot, 'public', 'assets', 'instagram-white.png'),
-          cid: 'instagramLogo'
-        }
-      ]
+      `,
     };
+
     await transporter.sendMail(mailOptions);
   } catch (error: any) {
     console.error("Error sending notification email:", error);
     throw new Error(error?.message || "Failed to send email");
   }
-}
+};
 
+// Fetch all emails sent
 const getEmailsSent = async () => {
   try {
     const colRef = collection(db, EMAILSENT_COLLECTION_NAME);
@@ -126,15 +98,14 @@ const getEmailsSent = async () => {
       return { success: true, count: 0, emails: [] };
     }
 
-    const totalCount = snapshot.size;
-
-    return { success: true, count: totalCount };
+    return { success: true, count: snapshot.size };
   } catch (error) {
     console.error("Error getting emails:", error);
     return { success: false, error };
   }
 };
 
+// Paginated fetch
 const getPaginatedEmails = async (
   limitQuery: number = 10,
   page: number = 1
@@ -151,17 +122,11 @@ const getPaginatedEmails = async (
     }
 
     const startIndex = (page - 1) * limitQuery;
-
     const q = query(colRef, orderBy("createdAt", "desc"));
-
     const snapshot = await getDocs(q);
 
     const slicedDocs = snapshot.docs.slice(startIndex, startIndex + limitQuery);
-
-    const emails = slicedDocs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const emails = slicedDocs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
     return {
       success: true,
@@ -178,6 +143,5 @@ const getPaginatedEmails = async (
   }
 };
 
-export { sendEmailService, getEmailsSent, getPaginatedEmails }
-
+export { sendEmailService, getEmailsSent, getPaginatedEmails };
 
