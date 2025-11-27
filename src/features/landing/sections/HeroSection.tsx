@@ -5,7 +5,7 @@ const HeroSection = () => {
   const handleBuyNow = () => {
     const el = document.getElementById("bottom");
     if (el) {
-      const yOffset = 300; // 👈 adjust this value (negative = scroll further down)
+      const yOffset = 300;
       const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -49,6 +49,7 @@ const HeroSection = () => {
           alt="Product preview"
           width={710}
           height={710}
+          content="cover"
           className="rounded-lg w-full max-w-xs sm:max-w-md md:max-w-2xl h-auto"
         />
       </div>

@@ -46,7 +46,7 @@ const BottomSection = () => {
             alt="Q1"
             width={500}
             height={500}
-            className="pt-6 sm:pt-12 md:pt-16 lg:pt-24 w-[200px] sm:w-[320px] md:w-[400px] lg:w-[500px] h-auto"
+            className="pt-6 pb-3 sm:pt-12 md:pt-16 lg:py-16 w-[200px] sm:w-[320px] md:w-[400px] lg:w-[500px] h-auto"
           />
         </div>
 
@@ -104,7 +104,7 @@ const BottomSection = () => {
             alt="Q1"
             width={500}
             height={500}
-            className="pt-6 sm:pt-12 md:pt-16 lg:pt-24 w-[200px] sm:w-[320px] md:w-[400px] lg:w-[500px] h-auto"
+            className="pt-6 pb-3 sm:pt-12 md:pt-16 lg:py-16 w-[200px] sm:w-[320px] md:w-[400px] lg:w-[500px] h-auto"
           />
         </div>
 
