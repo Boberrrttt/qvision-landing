@@ -139,7 +139,7 @@ export default function Navbar() {
               current === "SHOP" ? "text-[#23488B]" : ""
             }`}
           >
-            SHOP
+            {pathname === "/shop" ? "SHOP" : null}
           </li>
         )}
 

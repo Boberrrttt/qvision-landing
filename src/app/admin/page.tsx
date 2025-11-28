@@ -35,14 +35,14 @@ export default function AdminPage() {
 
       const data = res.data.data.data;
 
-      const convertedEmails = data.emails.map((e: any) => ({
+      const convertedEmails = data?.emails?.map((e: any) => ({
         ...e,
         createdAt: new Timestamp(e.createdAt.seconds, e.createdAt.nanoseconds),
       }));
 
       setEmails(convertedEmails);
-      setCurrentPage(data.currentPage);
-      setTotalPages(data.totalPages);
+      setCurrentPage(data?.currentPage);
+      setTotalPages(data?.totalPages);
     } catch (err) {
       console.error("Error fetching paginated emails:", err);
     } finally {
@@ -120,7 +120,7 @@ export default function AdminPage() {
               </div>
             ))
           ) : (
-            emails.map((email, index) => {
+            emails?.map((email, index) => {
               const date = email.createdAt.toDate();
               const isLast = index === emails.length - 1;
 
